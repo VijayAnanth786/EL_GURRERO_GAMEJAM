@@ -1,7 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'game/el_gurrero_game.dart';
+import 'ui/intro_video_screen.dart';
 import 'ui/main_menu.dart';
+import 'ui/map_screen.dart';
 import 'ui/game_over_screen.dart';
 
 void main() {
@@ -15,12 +17,24 @@ class ElGurreroApp extends StatefulWidget {
   State<ElGurreroApp> createState() => _ElGurreroAppState();
 }
 
-enum GameScreen { menu, playing, gameOver }
+enum GameScreen { menu, map, intro, playing, gameOver }
 
 class _ElGurreroAppState extends State<ElGurreroApp> {
-  GameScreen _screen = GameScreen.menu;
+  GameScreen _screen = GameScreen.map;
   ElGurreroGame? _game;
   final int _lastScore = 0;
+
+  void _goToMenu() {
+    setState(() {
+      _screen = GameScreen.menu;
+    });
+  }
+
+  void _goToIntro() {
+    setState(() {
+      _screen = GameScreen.intro;
+    });
+  }
 
   void _startGame() {
     setState(() {
@@ -29,7 +43,7 @@ class _ElGurreroAppState extends State<ElGurreroApp> {
     });
   }
 
-  void _goToMenu() {
+  void _resetToMenu() {
     setState(() {
       _screen = GameScreen.menu;
       _game = null;
@@ -48,6 +62,10 @@ class _ElGurreroAppState extends State<ElGurreroApp> {
 
   Widget _buildScreen() {
     switch (_screen) {
+      case GameScreen.map:
+        return MapScreen(onEnter: _goToIntro);
+      case GameScreen.intro:
+        return IntroVideoScreen(onFinished: _goToMenu);
       case GameScreen.menu:
         return MainMenu(onPlay: _startGame);
       case GameScreen.playing:
@@ -56,7 +74,7 @@ class _ElGurreroAppState extends State<ElGurreroApp> {
         return GameOverScreen(
           score: _lastScore,
           onRestart: _startGame,
-          onMainMenu: _goToMenu,
+          onMainMenu: _resetToMenu,
         );
     }
   }
