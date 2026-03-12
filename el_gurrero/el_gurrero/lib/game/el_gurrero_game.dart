@@ -1,33 +1,21 @@
-import 'package:flame/events.dart';
+import 'dart:ui';
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import '../player/player.dart';
-import '../player/player_stats.dart';
-import '../enemies/enemy_spawner.dart';
 import '../map/game_map.dart';
-import '../ui/hud.dart';
 
 /// The main Flame game class that ties everything together.
-class ElGurreroGame extends FlameGame with HasKeyboardHandlerComponents {
-  late Player player;
-  late PlayerStats playerStats;
-  late Hud hud;
+class ElGurreroGame extends FlameGame {
+  @override
+  Color backgroundColor() => const Color(0xFF87CEEB); // Sky blue background
 
   @override
   Future<void> onLoad() async {
-    playerStats = PlayerStats();
+    // Center the camera on the map center
+    // Map is 32x32 tiles of 32px => 1024x1024 pixels
+    camera.viewfinder.position = Vector2(512, 512);
+    camera.viewfinder.anchor = Anchor.center;
 
-    // Add map first (renders at bottom)
-    await add(GameMap());
-
-    // Add player
-    player = Player();
-    await add(player);
-
-    // Add enemy spawner
-    await add(EnemySpawner());
-
-    // Add HUD on top
-    hud = Hud();
-    await add(hud);
+    // Load the tiled map
+    await world.add(GameMap());
   }
 }

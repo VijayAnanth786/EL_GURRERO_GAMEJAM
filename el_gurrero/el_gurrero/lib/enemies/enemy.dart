@@ -31,10 +31,8 @@ class Enemy extends SpriteComponent with HasGameReference<ElGurreroGame> {
   @override
   void update(double dt) {
     super.update(dt);
-    // Basic AI: move toward the player
-    final player = game.player;
-    final direction = (player.position - position).normalized();
-    position.add(direction * speed * dt);
+    // Player is temporarily disabled while map-only mode is active.
+    // Keep enemies static until player is reintroduced.
   }
 
   void takeDamage(int amount) {

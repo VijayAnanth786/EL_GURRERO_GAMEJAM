@@ -45,7 +45,7 @@ class Hud extends PositionComponent with HasGameReference<ElGurreroGame> {
   void update(double dt) {
     super.update(dt);
     _scoreText.text = 'Score: $score';
-    _healthText.text = 'HP: ${game.playerStats.currentHealth}';
+    _healthText.text = 'HP: 100';
   }
 
   void addScore(int points) {
