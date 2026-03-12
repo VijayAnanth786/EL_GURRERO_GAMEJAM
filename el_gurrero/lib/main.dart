@@ -1,7 +1,7 @@
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_game/el_gurrero.dart';
+import 'el_gurrero.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
